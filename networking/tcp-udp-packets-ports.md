@@ -76,4 +76,4 @@ Some ptotocols:-
 | Server Message Block (SMB)                 |     445     | Similar to the File Transfer Protocol (FTP); however, as well as files, SMB allows you to share devices like printers.   |
 | Remote Desktop Protocol (RDP)              |     3389    | logging in to a system using a visual desktop interface                                                                  |
 
- [table of the 1024 common ports listed]([https://pages.github.com/](http://www.vmaxx.net/techinfo/ports.htm))
+ [table of the 1024 common ports listed](http://www.vmaxx.net/techinfo/ports.htm)
