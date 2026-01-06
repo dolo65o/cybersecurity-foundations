@@ -9,3 +9,6 @@ Focus:
 - Intro security concepts
 
 This repo will grow with notes and small labs.
+
+## Progress
+- Completed TryHackMe Networking Fundamentals (Networking Nerd badge)
