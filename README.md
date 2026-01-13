@@ -14,6 +14,9 @@ This repo will grow with notes and small labs.
 - Completed TryHackMe Networking Fundamentals (Networking Nerd badge)
 - Completed TryHackMe How the Web Works
 - Completed TryHackMe Linux Fundamentals
+- Completed TryHackMe Windows Fundamentals
+  
 
 ## Certifications
 - Cisco Networking Academy – Introduction to Cybersecurity (Jan 2026)
+- Completed TryHackMe Pre Security Learning Path (Jan 2026) 
