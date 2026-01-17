@@ -36,4 +36,3 @@
 * `chkdsk` :-  checks the file system and disk volumes for errors and bad sectors.
 * `driverquery` :-  displays a list of installed device drivers.
 * `sfc /scannow` :-  scans system files for corruption and repairs them if possible.
-* `del or erase` :-  delete a file.
