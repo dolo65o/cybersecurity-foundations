@@ -28,3 +28,12 @@
 * `move file_name path` :- can move files  
 * `del or erase` :-  delete a file.
 * `*` :- For example, `copy *.md C:\Markdown` will copy all files with the extension md to the directory `C:\Markdown`.
+* `tasklist` :-  delete a file.
+* `del or erase` :-  can list the running processes.
+* `tasklist /?` :-  can check all available filters by displaying the help page .
+* `/FI` :-  is used to set the filter,Example- `tasklist /FI "imagename eq sshd.exe"`
+* `taskkill /PID target_pid` :-  With the process ID (PID) known, we can terminate any task.
+* `chkdsk` :-  checks the file system and disk volumes for errors and bad sectors.
+* `driverquery` :-  displays a list of installed device drivers.
+* `sfc /scannow` :-  scans system files for corruption and repairs them if possible.
+* `del or erase` :-  delete a file.
