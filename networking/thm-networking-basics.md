@@ -41,11 +41,11 @@ Devices on a network will all have a physical network interface, which is a micr
 However, an interesting thing with MAC addresses is that they can be faked or "spoofed" in a process known as spoofing. This spoofing occurs when a networked device pretends to identify as another using its MAC address.
 
 
-## Ping & ICMP
+## Internet Control Message Protocol (ICMP)
 
-Ping is one of the most fundamental network tools available to us. Ping uses ICMP (Internet Control Message Protocol) packets to determine the performance of a connection between devices, for example, if the connection exists or is reliable.
-The time taken for ICMP packets travelling between devices is measured by ping.This measuring is done using ICMP's echo packet and then ICMP's echo reply from the target device.
+- Mainly used for network diagnostics and error reporting. Two popular commands rely on ICMP, and they are instrumental in network troubleshooting and network security. 
+    - `Ping` This command uses ICMP to test connectivity to a target system and measures the round-trip time (RTT). In other words, it can be used to learn that the target is alive and that its reply can reach our system.
+        - The `ping` command sends an ICMP Echo Request (ICMP Type 8).
+        - The computer on the receiving end responds with an ICMP Echo Reply (ICMP Type 0).
+    - `traceroute`  It uses ICMP to discover the route from your host to the target.The Internet protocol has a field called Time-to-Live (TTL) that indicates the maximum number of routers a packet can travel through before it is dropped. The router decrements the packet’s TTL by one before it sends it across. When the TTL reaches zero, the router drops the packet and sends an ICMP Time Exceeded message (ICMP Type 11). (In this context, “time” is measured in the number of routers, not seconds.)
 
-What I learned from this room:
-
-I understood how devices communicate on a network using IP and MAC addresses, and how tools like ping help verify connectivity using ICMP.
