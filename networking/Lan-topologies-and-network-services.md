@@ -39,7 +39,13 @@ Both Switches and Routers can be connected to one another. The ability to do thi
 
 It's a router's job to connect networks and pass data between them. It does this by using routing (hence the name router!).
 
+### What is Routing
 Routing is the label given to the process of data travelling across networks. Routing involves creating a path between networks so that this data can be successfully delivered.
+- The routing algorithms(few routing protocols)
+    - **OSPF (Open Shortest Path First):** is a routing protocol used inside large networks where routers share information about the state of their links and build a complete view of the network to calculate the shortest and most efficient path for data transmission.
+    - **EIGRP (Enhanced Interior Gateway Routing Protocol):** is a Cisco-developed protocol that combines features of different routing methods and selects the best route based on factors like bandwidth and delay, making it fast and efficient.
+    - **BGP (Border Gateway Protocol)** is the main routing protocol of the Internet and is used to exchange routing information between different networks or organizations, ensuring data can travel across multiple networks reliably.
+    - **RIP (Routing Information Protocol)** is a simple routing protocol mainly used in small networks, where routers select paths based on the number of hops, with a maximum limit of 15 hops.
 
 ## Subnetting
 
