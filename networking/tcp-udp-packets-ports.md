@@ -67,8 +67,8 @@ Networking devices also use ports to enforce strict rules when communicating wit
 
 Some ptotocols:- 
 
-| Protocol                                   | Port Number | Description                                                                                                              |
-|--------------------------------------------|-------------|--------------------------------------------------------------------------------------------------------------------------|
+| Protocol                                   | Port Number | Description                                                                                                              
+|--------------------------------------------|-------------|-----------------------------------------------------------------------------------
 | File Transfer Protocol (FTP)               |     21      | Used by a file-sharing application built on a client-server model.                                                       |
 | Secure Shell (SSH)                         |     22      | Used to securely login to systems via a text-based interface.                                                            |
 | HyperText Transfer Protocol (HTTP)         |     80      | This protocol powers the World Wide Web (WWW)!                                                                           |
@@ -77,3 +77,13 @@ Some ptotocols:-
 | Remote Desktop Protocol (RDP)              |     3389    | logging in to a system using a visual desktop interface                                                                  |
 
  [table of the 1024 common ports listed](http://www.vmaxx.net/techinfo/ports.htm)
+
+## Network Address Translation (NAT)
+
+* IPv4 provides around 4 billion addresses, which is not enough for the growing number of internet-connected devices. To solve this problem, Network Address Translation (NAT) is used.
+
+* NAT allows multiple devices inside a private network to access the internet using a single public IP address. The router keeps track of each connection by mapping internal IP addresses and port numbers to a public IP and different port numbers.
+
+* For example, a device with IP **192.168.0.129** using port 15401 may appear on the internet as **212.3.4.5** using port **19273**. This translation is handled automatically by the router using a NAT table.
+
+* NAT helps conserve IPv4 addresses and allows private networks to communicate securely with external networks.
