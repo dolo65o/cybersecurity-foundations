@@ -89,7 +89,10 @@ The Dynamic Host Configuration Protocol (DHCP) is a network management protocol 
 
 ### DORA process
 
-1. Discover
-2. Offer
-3. Request
-4. Acknowledge (ACK)
+1. DHCP Discover: The client broadcasts a DHCPDISCOVER message seeking the local DHCP server if one exists.
+2. DHCP Offer: The server responds with a DHCPOFFER message with an IP address available for the client to accept.
+3. DHCP Request: The client responds with a DHCPREQUEST message to indicate that it has accepted the offered IP.
+4. DHCP Acknowledge: The server responds with a DHCPACK message to confirm that the offered IP address is now assigned to this client.
+
+<img width="1268" height="780" alt="DHCP DORA" src="https://github.com/user-attachments/assets/afd55d36-a337-427c-bde8-d95a2a378cde" />
+
