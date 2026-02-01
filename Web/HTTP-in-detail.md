@@ -72,6 +72,16 @@ Key Lines:
 * Content-Length → Size of the body (bytes).
 * HTML → The actual content (web page).
 
+### Accessing the file on the Web with the Help of Telnet via HTTP
+```
+telnet IP_address 80
+Trying IP_address...
+Connected to IP_address.
+Escape character is '^]'.
+
+GET /file.html HTTP/1.1  
+```
+
 ## HTTP methods
 
 HTTP methods are a way for the client to show their intended action when making an HTTP request. There are a lot of HTTP methods but we'll cover the most common ones, although mostly you'll deal with the GET and POST method.
