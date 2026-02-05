@@ -28,3 +28,59 @@ A signed certificate means a trusted Certificate Authority has validated the ser
 
 ### 5. How does a browser verify a TLS certificate?
 The browser checks the certificate’s signature against trusted CA certificates installed on the system. If the signing CA is trusted and the certificate is valid, the secure connection is established; otherwise, a warning is shown.
+
+---
+
+## HTTP Over TLS
+HTTPS stands for Hypertext Transfer Protocol Secure. It is basically HTTP over TLS. Consequently, requesting a page over HTTPS will require the following three steps (after resolving the domain name):
+
+1. Establish a TCP three-way handshake with the target server
+2. Establish a TLS session
+3. Communicate using the HTTP protocol; for example, issue HTTP requests, such as GET / HTTP/1.1
+
+---
+## SMTP, POP3, and IMAP 
+Adding TLS to SMTP, POP3, and IMAP is no different than adding TLS to HTTP. Similar to how HTTP gets an appended S for Secure and becomes HTTPS, SMTP, POP3, and IMAP become SMTPS, POP3S, and IMAPS, respectively. Using these protocols over TLS is no different than using HTTP over TLS
+1. The insecure versions use the default TCP port numbers
+
+   
+| Protocol | Default Port Number |
+|----------|---------------------|
+| HTTP     | 80                  |
+| SMTP     | 25                  |
+| POP3     | 110                 |
+| IMAP     | 143                 |
+
+2. The secure versions, i.e., over TLS,
+   
+| Protocol | Secure Port Number(s) |
+|----------|-----------------------|
+| HTTPS    | 443                  |
+| SMTPS   | 465, 587              |
+| POP3S   | 995                   |
+| IMAPS   | 993                   |
+
+---
+
+## Secure Shell (SSH)
+
+Secure Shell (SSH) is a cryptographic network protocol developed by Tatu Ylönen in 1995 to provide secure communication over an unsecured network. SSH was created to address the vulnerabilities of earlier remote login protocols, such as Telnet, which transmitted data, including passwords, in plain text, making it susceptible to eavesdropping. SSH encrypts the data transmitted between a client and server, ensuring confidentiality and integrity.
+- It is most likely based on OpenSSH libraries and source code.
+    - **Secure authentication**: Besides password-based authentication, SSH supports public key and two-factor authentication.
+    - **Confidentiality**: OpenSSH provides end-to-end encryption, protecting against eavesdropping.
+    - **Integrity**: In addition to protecting the confidentiality of the exchanged data, cryptography also protects the integrity of the traffic.
+    - **Tunneling**: SSH can create a secure “tunnel” to route other protocols through SSH. This setup leads to a VPN-like connection.
+    - **X11 Forwarding**: If you connect to a Unix-like system with a graphical user interface, SSH allows you to use the graphical application over the network.
+
+---
+## SFTP and FTPS
+SFTP (SSH File Transfer Protocol) and FTPS (FTP Secure) are both secure methods for transferring files, but they use different underlying technologies: SFTP runs over SSH (Secure Shell), encrypting everything in one channel, making it simpler for firewalls (usually Port 22). FTPS is FTP with SSL/TLS encryption, adding security to the older FTP structure, but it often requires multiple ports (like 990 and dynamic data ports), complicating firewall rules. 
+
+---
+
+## VPN
+A virtual private network, or VPN, is an encrypted connection over the Internet from a device to a network.The encrypted connection helps ensure that sensitive data is safely transmitted. It prevents unauthorised people from eavesdropping on the traffic and allows the user to conduct work remotely.VPN technology is widely used in corporate environments.
+
+> Example:- Consider a company with offices in different geographical locations. Can this company connect all its offices and sites to the main branch so that any device can access the shared resources as if physically located in the main branch?
+> The answer is yes; furthermore, the most economical solution would be setting up a virtual private network (VPN) using the Internet infrastructure. 
+  
