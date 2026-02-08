@@ -15,7 +15,7 @@ This repo will grow with notes and small labs.
 - Completed TryHackMe How the Web Works
 - Completed TryHackMe Linux Fundamentals
 - Completed TryHackMe Windows Fundamentals
-  
+- Completed Tryhackme Wireshark Basics
 
 ## Certifications
 - Cisco Networking Academy – [Introduction to Cybersecurity](https://www.credly.com/badges/26b41d54-8c6c-4fe4-84fd-b23ce084c4aa/linked_in?t=t8fqwz) (Jan 2026)
