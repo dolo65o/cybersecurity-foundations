@@ -57,7 +57,8 @@ Regulations for handling medical records and personal data vary by country:
 
 5. To recover the plaintext, we must pass the ciphertext along with the proper key via the decryption function, which would give us the original plaintext.
 
-   <img width="909" height="484" alt="cryptography Decryption" src="https://github.com/user-attachments/assets/cb9a2532-829a-45a3-a0ae-d00bac7c4477" />
+     <img width="909" height="451" alt="cryptography Decryption" src="https://github.com/user-attachments/assets/06fd0e87-45a2-4e6a-842f-fef61bc15271" />
+
    
 ### Key Terminology
 
@@ -76,7 +77,7 @@ While cryptography dates back to Ancient Egypt (1900 BCE), one of the most famou
 
 ---
 
-## 1. Mechanism: How it Works 
+## Mechanism: How it Works 
 The Caesar Cipher is a simple substitution technique.
 
 * **Logic:** It shifts each letter of the alphabet by a fixed number (the Key) to encrypt the message.
@@ -93,18 +94,105 @@ The Caesar Cipher is a simple substitution technique.
 
 ---
 
-## 2. Security Weaknesses 
+## Security Weaknesses 
 By modern standards, the Caesar Cipher is considered completely insecure.
 
 * **Limited Keys:** The English alphabet has 26 letters. Shifting by 26 results in the original text, leaving only **25 possible keys**.
 * **Brute Force Vulnerability:** Because the "Key Space" (number of possible keys) is so small, an attacker can easily try every single option until the message makes sense.
 
-
 ---
 
-## 3. Other Notable Historical Ciphers
+
+## Other Notable Historical Ciphers
 You may encounter these other classical methods in cryptography history:
 
 * **The Vigenère Cipher:** A more complex polyalphabetic cipher from the 16th century.
 * **The Enigma Machine:** The electromechanical encryption device used by Germany in World War II.
 * **The One-Time Pad:** A theoretically unbreakable cipher used during the Cold War.
+
+---
+
+# Modern Encryption Types
+
+Modern cryptography is divided into two primary categories based on how keys are managed: Symmetric and Asymmetric encryption.
+
+## 1. Symmetric Encryption
+Also known as **Private Key Cryptography**.
+
+* **Mechanism:** It uses the **same key** to both encrypt and decrypt the data.
+* **Key Security:** Keeping the key secret is mandatory. If an attacker gains access to the key, they can decrypt all data.
+* **The Distribution Challenge:** The biggest difficulty is securely sharing the key with the recipient without it being intercepted. For example, you can email an encrypted file, but you cannot safely email the password to open it.
+
+### Common Symmetric Algorithms
+* **DES (Data Encryption Standard):** Adopted in 1977. It uses a **56-bit key**, which is now considered insecure; it was successfully broken in less than 24 hours in 1999.
+* **3DES (Triple DES):** Applied DES three times to increase security. It uses a **168-bit key** (effective security of 112 bits). It was deprecated in 2019 and is generally found only in legacy systems.
+* **AES (Advanced Encryption Standard):** Adopted in 2001 as the replacement for DES/3DES. It supports key sizes of **128, 192, or 256 bits** and is the current standard.
+
+---
+
+## 2. Asymmetric Encryption
+Also known as **Public Key Cryptography**.
+
+* **Mechanism:** Unlike symmetric encryption, this uses a **pair of keys**.
+    * **Public Key:** Shared with everyone. Used to **encrypt** data.
+    * **Private Key:** Kept secret. Used to **decrypt** data.
+* **Mathematical Basis:** It relies on mathematical problems that are easy to calculate in one direction but practically infeasible to reverse (e.g., taking millions of years to solve).
+* **Performance:** It is generally **slower** than symmetric encryption and requires larger key sizes.
+
+### Common Asymmetric Algorithms
+* **RSA:** One of the most common standards. It uses large key sizes, with **2048 bits** being the recommended minimum (3072 and 4096 bits are also used).
+* **Diffie-Hellman:** Widely used for key exchange. Like RSA, it recommends a minimum key size of 2048 bits.
+* **ECC (Elliptic Curve Cryptography):** A modern approach that achieves high security with much smaller keys. For example, a **256-bit ECC key** provides comparable security to a **3072-bit RSA key**.
+
+---
+
+# Cryptography Math: XOR & Modulo 
+
+Modern cryptography relies heavily on mathematics. Two specific operations are fundamental to many algorithms: the **XOR** operation and the **Modulo** operation.
+
+---
+
+## 1. The XOR Operation ($\oplus$) 
+**XOR** (Exclusive OR) is a logical operation in binary arithmetic.
+
+* **Logic:** It compares two bits:
+    * Returns `1` if the bits are **different**.
+    * Returns `0` if the bits are the **same**.
+* **Symbol:** Often represented by $\oplus$ or `^`.
+
+### Truth Table
+| Input A | Input B | Output ($A \oplus B$) |
+| :---: | :---: | :---: |
+| 0 | 0 | **0** |
+| 0 | 1 | **1** |
+| 1 | 0 | **1** |
+| 1 | 1 | **0** |
+
+
+### Why it Matters for Encryption
+XOR has unique properties that make it perfect for reversible encryption:
+1.  **Identity:** $A \oplus 0 = A$ (XORing with 0 preserves the value).
+2.  **Self-Inverse:** $A \oplus A = 0$ (XORing a value with itself "cancels" it out).
+
+**Encryption Logic:**
+If you have a Plaintext ($P$) and a Secret Key ($K$), you can create Ciphertext ($C$):
+$$C = P \oplus K$$
+
+**Decryption Logic:**
+To get the message back, you simply XOR the Ciphertext with the Key again:
+$$C \oplus K = (P \oplus K) \oplus K = P \oplus 0 = P$$
+
+---
+
+## 2. The Modulo Operation (%) 
+The modulo operator, written as `%` or `mod`, calculates the **remainder** of a division operation.
+
+* **Logic:** For equation $X \% Y$, it returns the remainder when $X$ is divided by $Y$.
+* **Examples:**
+    * $25 \% 5 = 0$ (because $25 = 5 \times 5 + 0$).
+    * $23 \% 6 = 5$ (because $23 = 6 \times 3 + 5$).
+    * $23 \% 7 = 2$ (because $23 = 7 \times 3 + 2$).
+
+### Why it Matters for Cryptography
+1.  **Irreversibility (One-Way Function):** Modulo is not fully reversible. If you know $x \% 5 = 4$, you cannot determine exactly what $x$ was (it could be 4, 9, 14, etc.). This property is crucial for algorithms like RSA and Diffie-Hellman.
+2.  **Fixed Range:** The result of $a \% n$ will **always** be a number between $0$ and $n-1$. This ensures cryptographic outputs stay within a predictable size.
