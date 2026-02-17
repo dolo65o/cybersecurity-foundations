@@ -208,3 +208,75 @@ The tool `ssh-keygen` creates these key pairs. It supports several algorithms:
 In Capture The Flag (CTF) challenges, you often start with a "reverse shell," which is unstable (it crashes if you press Ctrl+C and lacks tab completion).
   * The Upgrade: If you can write to the target's file system, you can inject your own Public Key into their `~/.ssh/authorized_keys` file.
   * The Result: You can then SSH into the machine normally, giving you a fully stable shell with all features.
+
+---
+
+# Digital Signatures & Certificates 
+
+In the digital world, we cannot rely on physical signatures, stamps, or fingerprints to prove identity. instead, we use **Digital Signatures** to verify the authenticity and integrity of a message or document.
+
+---
+
+## 1. What is a Digital Signature? 
+
+A digital signature is a cryptographic method used to prove two things:
+1.  **Authenticity:** Confirming who created or signed the file.
+2.  **Integrity:** Confirming the file has not been modified since it was signed.
+
+### How It Works (The Asymmetric Reversal)
+We normally use Public Keys to encrypt and Private Keys to decrypt. Digital signatures reverse this logic:
+* **Signing:** You create a signature using your **Private Key** (which only you possess).
+* **Verifying:** Anyone can use your **Public Key** to verify that the signature was made by your Private Key.
+
+### Electronic vs. Digital Signatures
+* **Electronic Signature:** Often refers to simply pasting an image of a signature onto a document. This is insecure as anyone can copy-paste an image.
+* **Digital Signature:** A cryptographic process where the sender encrypts a **hash** of the document. The recipient decrypts this hash and compares it to the actual file to ensure it matches exactly.
+
+---
+
+## 2. Certificates: Proving Who You Are 
+
+While signatures prove *integrity*, how do you know the Public Key actually belongs to the person/company they claim to be? This is where **Certificates** come in.
+
+### The Chain of Trust 
+Certificates rely on a hierarchy of trust to validate identities, particularly for web browsing (HTTPS).
+
+1.  **Root CA (Certificate Authority):** These are trusted organizations (e.g., DigiCert, Let's Encrypt). Your operating system and browser come pre-installed with a list of Root CAs they automatically trust.
+2.  **Intermediate CA:** The Root CA signs certificates for organizations, vouching for them.
+3.  **End-Entity Certificate:** This is the certificate you see on a website (e.g., `tryhackme.com`).
+
+> *Logic:* Your browser trusts the Root CA -> The Root CA trusts the Organization -> Therefore, your browser trusts the Organization's website.
+
+### TLS Certificates & HTTPS 
+To use HTTPS, a website must have a **TLS Certificate**.
+* **Paid:** You can buy them from various authorities for an annual fee.
+* **Free:** Organizations like **[Let's Encrypt](https://letsencrypt.org/)** provide free TLS certificates to encourage a more secure web.
+
+---
+
+# PGP & GPG Essentials 
+
+**PGP** (Pretty Good Privacy) is a software suite used for encrypting files, performing digital signing, and protecting data confidentiality.
+
+**GPG** (GNU Privacy Guard), also known as **GnuPG**, is the open-source implementation of the OpenPGP standard.
+
+## 1. Core Use Cases 
+
+GPG is commonly used to secure communications, particularly emails:
+* **Confidentiality:** Encrypting email messages so only the recipient can read them.
+* **Integrity:** Signing an email message to confirm it hasn't been altered and verifying the sender's identity.
+
+## 2. Generating Keys 
+
+To start using GPG, you must generate a key pair (Public and Private).
+
+**Command:**
+`gpg --full-gen-key`
+
+### The Interactive Process:
+
+    * Select Algorithm: You will be asked to choose the key type. The modern default is often (9) ECC (sign and encrypt).
+    * Select Curve: If choosing ECC, you select the elliptic curve. Curve 25519 is the default.
+    * Set Validity: You decide how long the key lasts. 0 means the key does not expire
+    * User ID: You must provide a Real Name and Email Address to identify the key.
+
