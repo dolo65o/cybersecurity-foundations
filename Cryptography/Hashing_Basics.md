@@ -312,3 +312,7 @@ strategos@g5000 ~> base64 -d
 VHJ5SGFja01lCg==
 TryHackMe
 ```
+## 3. Encryption
+Encryption is the only method among the three that protects data confidentiality.
+  - Purpose: It secures data by applying a cryptographic cipher and a key.
+  - Reversibility: Encryption is reversible, but only provided that you know the specific cipher used and can access the decryption key.
