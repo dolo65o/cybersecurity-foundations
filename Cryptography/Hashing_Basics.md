@@ -282,3 +282,33 @@ $HMAC(K, M) = H((K \oplus opad) || H((K \oplus ipad) || M))$
 * $H$ denotes the cryptographic hash function.
 * $\oplus$ indicates the XOR operation.
 * $ipad$ and $opad$ are the inner and outer padding constants.
+
+# Hashing vs. Encoding vs. Encryption
+
+Before concluding the study of these cryptography concepts, it is crucial to clearly distinguish between hashing, encoding, and encryption, as they are often confused but serve entirely different purposes.
+
+## 1. Hashing
+Hashing takes input data and produces a fixed-size string of characters, known as a digest or hash value.
+
+* **Purpose:** To uniquely represent data; any change in the data, no matter how small, leads to a change in the hash value.
+* **Reversibility:** Hashing is strictly a **one-way** process. You cannot reverse the process to get the original data back.
+
+## 2. Encoding
+Encoding converts data from one form into another to make it compatible with a specific system.
+
+* **Purpose:** Data compatibility and usability, not security. Using a specific encoding does not protect the confidentiality of a message.
+* **Examples:**
+    * *Text Encoding:* ASCII, ISO-8859-1, and Windows-1252 are used for the English language. Unicode encodings like UTF-8, UTF-16, and UTF-32 can represent characters from other languages, such as Arabic and Japanese.
+    * *Data Encoding:* Base32 and Base64 are commonly used when sending or saving data that isn't for a specific language.
+* **Reversibility:** Encoding is highly **reversible**. Anyone can change the data back to its original form with the right tools.
+
+**Base64 Terminal Example:**
+```bash
+strategos@g5000 ~> base64
+TryHackMe
+VHJ5SGFja01lCg==
+
+strategos@g5000 ~> base64 -d
+VHJ5SGFja01lCg==
+TryHackMe
+```
