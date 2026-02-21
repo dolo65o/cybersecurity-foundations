@@ -88,3 +88,197 @@ Even when hashing is utilized, using an outdated algorithm or failing to impleme
   - **Missing Security Controls**: Additionally, LinkedIn did not use password salting.
   - **What is Salting?** Password salting is the practice of adding a "salt"—a random value—to the password before it is hashed to provide extra security.
 
+---
+
+# Secure Password Storage: Salting & Rainbow Tables
+
+While using a hash function is infinitely better than storing passwords in plaintext, basic hashing alone is no longer sufficient to protect user credentials. 
+
+## 1. The Flaw with Basic Hashing
+The primary weakness of basic hashing is that a hash function will always produce the exact same output for the same input. 
+
+* **The Duplicate Problem:** If two different users happen to choose the exact same password, their stored hash values will be identical. 
+* **The Risk:** If an attacker manages to crack one hash, they instantly gain access to every other account sharing that same password. Furthermore, this predictability allows for the use of pre-computed attacks like Rainbow Tables.
+
+## 2. Rainbow Tables
+A **Rainbow Table** is a massive lookup table that maps pre-computed hash values back to their original plaintext passwords. 
+
+* **Time vs. Space:** Creating a rainbow table takes significant computational time, but once generated, it trades that cracking time for hard disk space. 
+* **The Threat:** Searching through a sorted list of hashes is dramatically faster than trying to compute and crack a hash dynamically. Services like CrackStation and Hashes.com leverage massive rainbow tables to provide near-instant password cracking for *unsalted* hashes.
+
+
+## 3. Defeating Rainbow Tables with "Salting"
+To mitigate the threat of rainbow tables, security systems use a technique called "salting". 
+
+* **What is a Salt?** A salt is a randomly generated string of characters that is added to the user's password *before* it gets hashed. 
+* **The Mechanism:** The salt must be unique to each individual user. Because the salt is unique, even if two users have the exact same plaintext password, their final combined hashes will look completely different. 
+* **Storage:** Salts do not need to be kept secret; they are safely stored in the database right next to the hash value. Modern hashing functions like Bcrypt and Scrypt handle this salting process automatically.
+
+## 4. Best Practices Example: Secure Storage Workflow
+When properly securing user passwords from scratch, follow these exact steps:
+
+1. **Select Algorithm:** Choose a modern, secure hashing function designed for passwords (e.g., Argon2, Scrypt, Bcrypt, or PBKDF2).
+2. **Generate Salt:** Create a unique, random salt for the specific user (e.g., `Y4UV*^(=go_!`).
+3. **Concatenate:** Combine the plaintext password with the unique salt. For a password of `AL4RMc10k`, the combined string becomes `AL4RMc10kY4UV*^(=go_!`.
+4. **Hash:** Calculate the hash value of this newly combined string using the selected algorithm.
+5. **Store:** Save both the final hash value and the unique salt used (`Y4UV*^(=go_!`) in the database.
+
+## 5. Why Not Just Encrypt the Passwords?
+It might seem simpler to just use symmetric encryption to protect passwords, but this introduces a critical vulnerability: Key Management. 
+
+If you encrypt the database, you must store the decryption key somewhere. If an attacker breaches your systems and locates that single key, they can instantly decrypt and steal every single user password in your database. Hashing remains one-way, neutralizing this risk.
+
+---
+
+# Hash Recognition for Offensive Security
+
+Transitioning from defensive strategies to offensive security requires the ability to recognize hash types before attempting to crack them and recover the original passwords.
+
+While automated recognition tools like `hashID` exist, they can be unreliable for certain formats. For example, these tools often mix up MD5 and NTLM hashes. Therefore, relying on environmental context is essential; discovering a hash within a web application database makes it far more likely to be MD5 than NTLM.
+
+## 1. Linux Password Hashes
+Modern Linux operating systems store password hashes in the `/etc/shadow` file, which is typically restricted to root access. Historically, passwords resided in `/etc/passwd`, exposing them to any user on the system. 
+
+The `shadow` file structures its data across nine fields delimited by colons (`:`). The second field contains the encrypted passphrase, formatted predictably as `$prefix$options$salt$hash`. The prefix is the crucial identifier for the hashing algorithm utilized.
+
+
+### Common Unix-Style Prefixes
+The following table outlines standard prefixes found in Linux systems, ordered from strongest to weakest:
+
+| Prefix | Algorithm | Description |
+| :--- | :--- | :--- |
+| `$y$` | **yescrypt** | A scalable hashing scheme; the default and recommended choice for new systems. |
+| `$gy$` | **gost-yescrypt** | Utilizes the GOST R 34.11-2012 hash function alongside the yescrypt method. |
+| `$7$` | **scrypt** | A password-based key derivation function. |
+| `$2b$`, `$2y$`, `$2a$`, `$2x$` | **bcrypt** | Based on the Blowfish block cipher, originally developed for OpenBSD and supported across many modern Unix-like systems. |
+| `$6$` | **sha512crypt** | Based on SHA-2 with a 512-bit output, commonly found on older Linux systems. |
+| `$md5` | **SunMD5** | Based on the MD5 algorithm, originally developed for Solaris. |
+| `$1$` | **md5crypt** | Based on the MD5 algorithm, originally developed for FreeBSD. |
+
+### Practical Example Breakdown
+Consider this terminal output querying the shadow file for a specific user:
+
+```bash
+root@TryHackMe# sudo cat /etc/shadow | grep strategos
+strategos:$y$j9T$76UzfgEM5PnymhQ7TlJey1$/OOSg64dhfF.TigVPdzqiFang6uZA4QA1pzzegKdVm4:19965:0:99999:7:::
+```
+- Focusing on the components separated by the `$` symbol:
+    - `y`: Indicates the hash algorithm is yescrypt.
+    - `j9T`: Represents the parameters passed to the algorithm.
+    - `76UzfgEM5PnymhQ7TlJey1`: The unique salt applied to the password.
+    - `/OOSg64dhfF.TigVPdzqiFang6uZA4QA1pzzegKdVm4`: The final computed hash value.
+
+## 2. Windows Password Hashes
+Microsoft Windows manages authentication differently, relying on NTLM (a variant of MD4) for password hashing.
+  - **Storage location**: These credentials reside within the SAM (Security Accounts Manager) database.
+  - **Extraction**: While the operating system actively prevents standard users from accessing this database, specialized tools like **mimikatz** are designed to bypass these protections and dump the hashes.
+  - **Identification**: Visually, an NTLM hash looks identical to MD4 and MD5 hashes, reinforcing the need to use environmental context for accurate identification.
+
+---
+
+# Cracking Password Hashes
+
+When passwords are salted, pre-computed rainbow tables are no longer effective. Because you cannot "decrypt" a hash, you must attempt to crack it by hashing numerous different inputs and comparing the results to the target hash.
+
+Industry-standard tools for this process include **[Hashcat](https://hashcat.net/hashcat/)** and **[John the Ripper](https://www.openwall.com/john/)**. They automate the process of taking a massive list of potential passwords (like `rockyou.txt`), applying the known hash algorithm (and salt, if applicable), and looking for a match.
+
+## 1. Hardware Considerations: GPUs vs. VMs
+
+The speed at which you can crack a hash depends heavily on your hardware and the hashing algorithm used.
+
+* **The Power of GPUs:** Modern Graphics Processing Units (GPUs) contain thousands of cores. While they cannot execute standard CPU tasks, they are highly specialized for the mathematical calculations involved in most hash functions, allowing you to crack many hash types exceptionally quickly. 
+* **Algorithm Resistance:** Some modern hashing algorithms, such as Bcrypt, are intentionally designed to resist GPU acceleration, meaning hashing on a GPU provides no speed improvement over a CPU.
+* **The Virtual Machine Limitation:** Cracking hashes inside a Virtual Machine (VM) is generally inefficient. VMs typically do not have direct access to the host machine's graphics card, and virtualization introduces overhead that degrades CPU performance. 
+* **Best Practice:** For optimal performance, run Hashcat directly on your host operating system (Windows builds are available) to fully leverage your GPU hardware. John the Ripper relies on the CPU by default, but it will still perform better on the host OS without virtualization overhead.
+
+## 2. Using Hashcat
+
+Hashcat is a powerful, command-line-driven advanced password recovery utility. 
+
+### Basic Syntax
+The fundamental structure of a Hashcat command is as follows:
+
+```bash
+hashcat -m <hash_type> -a <attack_mode> hashfile wordlist
+```
+### Flag Breakdown
+- `-m <hash_type>`: Specifies the exact algorithm used to generate the hash, represented by a numeric code. For example, `-m 1000` tells Hashcat to treat the target as an NTLM hash. You must consult the Hashcat documentation or example page to find the correct code for your target hash.
+- `-a <attack_mode>`: Specifies how Hashcat should attempt to crack the password. For a standard dictionary attack (trying passwords straight from a list one after another), you use `-a 0`.
+- `hashfile`: The path to the text file containing the hash(es) you are trying to crack.
+- `wordlist`: The path to the dictionary file you want to use, such as the `rockyou.txt` file.
+
+### Practical Command Example
+If you want to crack a Bcrypt hash stored in hash.txt using the rockyou.txt wordlist via a straight dictionary attack, you would execute the following command:`hashcat -m 3200 -a 0 hash.txt /usr/share/wordlists/rockyou.txt`
+
+---
+
+# Data Integrity and HMACs
+
+Beyond storing passwords securely, hash functions serve a critical role in verifying the integrity of data.
+
+## 1. Integrity Checking
+Hashing provides a reliable method to confirm that files remain unchanged. Because hash functions deterministically produce the same output for the exact same input, any modification to a file—even a single bit—will drastically alter its resulting hash.
+
+* **File Verification:** When downloading software, such as operating system ISOs, developers often provide the official hash value alongside the download link. You can compute the hash of your local copy using utilities like `sha256sum` and compare it against the official record to guarantee your file is authentic and uncorrupted.
+* **Duplicate Detection:** Since identical documents generate the exact same hash, computing hashes is a highly efficient technique for identifying and removing duplicate files across a system.
+
+## 2. HMAC (Keyed-Hash Message Authentication Code)
+Standard hashing proves that a file has not changed, but it does not prove the identity of the person who created the file or hash. An HMAC addresses this limitation by combining a cryptographic hash function with a secret key.
+
+* **Authenticity and Integrity:** By incorporating a secret key, an HMAC verifies both the identity of the creator (authenticity) and that the data remains intact (integrity).
+
+### The HMAC Process
+Generating an HMAC involves a specific sequence of cryptographic operations:
+
+1. The secret key is padded to match the block size of the chosen hash function.
+2. This padded key is then XORed with a constant value, typically a block of zeros or ones.
+3. The actual message is hashed using the hash function alongside the XORed key from the previous step.
+4. The result of that first hash is hashed a second time, utilizing the padded key XORed with a different constant.
+5. This final operation yields the fixed-size HMAC string.
+
+# HMAC Process
+
+Assume:
+- Secret Key = K
+- Message = M
+- Hash Function = H
+
+## Step 1: Key Padding
+
+If the key is shorter than the hash block size → pad with zeros  
+If longer → hash it first
+
+## Step 2: Inner Key Mixing
+
+Compute: `K ⊕ ipad`
+
+Where:
+- `ipad` = Inner padding constant
+
+## Step 3: Inner Hash
+
+Hash the combined value: `InnerHash = H((K ⊕ ipad) || M)`
+
+## Step 4: Outer Key Mixing
+
+Compute: `K ⊕ opad`
+
+Where:
+- `opad` = Outer padding constant
+
+## Step 5: Final HMAC
+
+Hash again: `HMAC = H((K ⊕ opad) || InnerHash)`
+
+## Final Formula
+
+$HMAC(K, M) = H((K \oplus opad) || H((K \oplus ipad) || M))$
+
+   <img width="598" height="654" alt="HMAC" src="https://github.com/user-attachments/assets/ed4b314e-ce2f-42f2-9f73-a998e5f1bd3d" />
+
+
+* $M$ represents the message being authenticated.
+* $K$ represents the secret key.
+* $H$ denotes the cryptographic hash function.
+* $\oplus$ indicates the XOR operation.
+* $ipad$ and $opad$ are the inner and outer padding constants.
