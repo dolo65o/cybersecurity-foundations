@@ -340,3 +340,36 @@ After extracting the hash, run John with a wordlist.
 ```
 john --wordlist=/usr/share/wordlists/rockyou.txt rar_hash.txt
 ```
+# Cracking SSH Key Passwords with John the Ripper
+
+## Overview
+
+John the Ripper can be used to crack passphrases protecting SSH private keys.  
+When key-based authentication is enabled, access to the private key may require a password (passphrase).
+
+If this passphrase is weak, it may be recoverable through offline cracking.
+
+---
+
+## ssh2john Utility
+
+`ssh2john` converts an SSH private key into a hash format compatible with John the Ripper.
+
+### Syntax
+```
+ssh2john [private_key_file] > [output_file]
+```
+### Alternative Execution (if ssh2john not in PATH)
+```
+python3 /opt/john/ssh2john.py id_rsa > id_rsa_hash.txt
+OR
+python /usr/share/john/ssh2john.py id_rsa > id_rsa_hash.txt
+```
+## Example Usage
+```
+ssh2john id_rsa > id_rsa_hash.txt
+```
+## Cracking the SSH Key Hash
+```
+john --wordlist=/usr/share/wordlists/rockyou.txt id_rsa_hash.txt
+```
