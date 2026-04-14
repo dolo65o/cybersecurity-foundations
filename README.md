@@ -27,7 +27,11 @@ This repo will grow with notes and small labs.
     - learn Basics of Metasploit
     - learn About Moniker link
       - Leak user's credentials using CVE-2024-21413 to bypass Outlook's Protected View.
-    - Deploying and Hacking into window machine 
+    - Deploying and Hacking into window machine
+- Completed Tryhackme Web application
+    - Understanding of JavaScript Essential
+    - Learn about Sql Fundamentals
+    - Completed Burp Suit : Basics
 
 ## Certifications
 - Cisco Networking Academy – [Introduction to Cybersecurity](https://www.credly.com/badges/26b41d54-8c6c-4fe4-84fd-b23ce084c4aa/linked_in?t=t8fqwz) (Jan 2026)
