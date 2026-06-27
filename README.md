@@ -17,7 +17,7 @@ This repo will grow with notes and small labs.
     - Tcpdump tool
 - Completed TryHackMe Windows Fundamentals
     - Active directory Basics
-    - Pooweshell Basics
+    - Powershell Basics
     - Window cmd
 - Completed Tryhackme Wireshark Basics
 - Completed Tryhackme Cryptography Basics
@@ -32,6 +32,11 @@ This repo will grow with notes and small labs.
     - Understanding of JavaScript Essential
     - Learn about Sql Fundamentals
     - Completed Burp Suit : Basics
+- Completed Tryhackme Offensive Security Tooling
+    - Learn basics of hydra tool
+    - Complete Gobuster Basics
+    - Understanfing of Different type of shell
+    - Learn about SQLmap
 
 ## Certifications
 - Cisco Networking Academy – [Introduction to Cybersecurity](https://www.credly.com/badges/26b41d54-8c6c-4fe4-84fd-b23ce084c4aa/linked_in?t=t8fqwz) (Jan 2026)
