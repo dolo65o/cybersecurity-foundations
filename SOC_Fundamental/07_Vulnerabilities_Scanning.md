@@ -133,3 +133,71 @@ Used to **prioritize** which vulnerabilities to patch first.
 
 ---
 
+## OpenVAS — Installation & Vulnerability Scan
+
+### Installation (via Docker)
+
+```bash
+# Install Docker
+sudo apt install docker.io
+
+# Run OpenVAS container (Immauss image)
+sudo docker run -d -p 443:443 --name openvas immauss/openvas
+```
+
+> Docker containers bundle all dependencies — avoids OpenVAS's hectic native install process.
+
+### Access Web Interface
+```
+https://127.0.0.1
+```
+Log in with credentials → reach OpenVAS dashboard
+
+<img width="1280" height="645" alt="1" src="https://github.com/user-attachments/assets/0a476b42-9adc-4b64-9f90-c69d17d971b7" />
+
+
+---
+
+### Performing a Scan — Workflow
+
+
+Dashboard
+  → Scans → Tasks
+
+<img width="2352" height="1256" alt="2" src="https://github.com/user-attachments/assets/4fd91b07-7953-48d6-8272-2143aa7b8a3f" />
+
+
+  → New Task (star icon)
+
+<img width="2316" height="1286" alt="3" src="https://github.com/user-attachments/assets/102fb204-cc82-4974-9bed-5e2a60770ca3" />
+
+  
+      → Enter task name
+      → Scan Targets → enter target name + IP → Create
+
+<img width="2470" height="1104" alt="4" src="https://github.com/user-attachments/assets/0bb79302-ffa3-4854-9e5e-b6b6e4d8bc23" />
+
+      → Select scan type → Create
+
+<img width="2310" height="1274" alt="5" src="https://github.com/user-attachments/assets/01f21cc1-5590-4005-b493-3a5253be1a4b" />
+
+     
+  → Click Play (▶) on the task to start scan
+
+<img width="2306" height="1280" alt="6" src="https://github.com/user-attachments/assets/28343753-deb6-4bd0-9c70-4b07b013efce" />
+
+  → Wait for status: "Done"
+  
+  → Click task name → view vulnerability count
+
+<img width="2300" height="1152" alt="7" src="https://github.com/user-attachments/assets/ccd89679-affa-44ff-b240-e7184baad834" />
+
+  → Click count → view full vulnerability list (with severity)
+
+<img width="2308" height="1156" alt="8" src="https://github.com/user-attachments/assets/81cd34ea-b5bc-4c65-b9dd-123bd381f98c" />
+
+  → Click individual vulnerability → view details
+  
+<img width="2478" height="1234" alt="9" src="https://github.com/user-attachments/assets/68099154-b2b6-40d9-aa45-0fc2dd78b7e9" />
+
+
