@@ -37,6 +37,21 @@ This repo will grow with notes and small labs.
     - Complete Gobuster Basics
     - Understanfing of Different type of shell
     - Learn about SQLmap
+- Completed Tryhackme Defensive Security
+    - Understanding about SOC fundamentals
+    - Understanding of digital forensic
+    - Learn about Incident Response
+    - Completed Log fundamentals
+- Completed Tryhackme Security Solutions
+    - Learn about SIEM Tool
+    - Learn about Firewalls Fundamentals
+    - Learn about IDS 
+    - Learn about Vulnerability Scanner
+- Completed Defensive Security Tooling
+    - Hands-ON CyberChef Basics
+    - Learn about CAPA
+    - Learn about REMnux
+    - Learn about FlareVM
 
 ## Certifications
 - Cisco Networking Academy – [Introduction to Cybersecurity](https://www.credly.com/badges/26b41d54-8c6c-4fe4-84fd-b23ce084c4aa/linked_in?t=t8fqwz) (Jan 2026)
